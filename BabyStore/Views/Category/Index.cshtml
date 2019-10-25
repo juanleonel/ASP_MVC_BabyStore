@@ -1,0 +1,116 @@
+﻿@model IEnumerable<BabyStore.Models.CategoryViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>  @Html.DisplayNameFor(model => model.Name) </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Name)*@
+                    @Html.ActionLink(item.Name, "Index", "Product", new { category = item.Name }, null)
+                </td>
+
+                <td>
+                    
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary edit" }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-primary detail" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-primary delet" })
+                </td>
+            </tr>
+        }        
+    </tbody>
+
+</table>
+
+<link href="~/Content/DataTable/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/DataTable/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/DataTable/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
+@section scripts{
+
+    <script src="~/Scripts/DataTable/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/alertify/alertify.min.js"></script>
+    <script>
+            $(document).ready(function () {
+
+                var Tabla;
+
+                //FillTabla();
+
+                function FillTabla() {
+
+                    Tabla = $("#usuariosTabla").DataTable(
+                        {
+                            "ajax": {
+                                "url": "/Usuarios/GetList",
+                                "type": "GET",
+                                "datatype": "json"
+                            },
+                            "columns": [
+                                { "data": "Id" },
+                                { "data": "NombreUsuario" },
+                                { "data": "ApellidoUsuario" },
+                                { "data": "CorreoElectronico" },
+                                { "data": "NombreSexo" },
+                                { "data": "NombreEstatus" },
+                                { "data": null }
+                            ],
+                            "columnDefs":
+                                [
+                                    {
+                                        "data": null,
+                                        "defaultContent": "<button class=\"btn btn-danger delete\">Eliminar</button> "
+                                            + "<button class=\"btn btn-warning edit\">Editar</button>",
+                                        "targets": -1
+                                    }
+                                ]
+                        });
+                }
+
+                // funcion para eliminar
+                $("#usuariosTabla tbody").on("click", ".delete", function () {
+
+                    //var data = Tabla.row($(this).parents('tr')).data();
+
+        
+                    alertify
+                        .confirm('Confirma', 'Esta seguro de eliminar el registro ' ,
+                        function () {
+
+                                    
+                            }, function () {
+
+                            });
+                    
+
+                });
+
+                // funcion para editar
+                $("#usuariosTabla tbody").on("click", ".edit", function () {
+
+
+
+                });
+
+
+            });
+    </script>
+}
+

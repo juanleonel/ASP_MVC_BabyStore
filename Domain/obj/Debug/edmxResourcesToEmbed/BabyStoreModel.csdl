@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BabyStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="BabyStoreEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categorys" EntityType="BabyStoreModel.Category" />
+    <EntitySet Name="Products" EntityType="BabyStoreModel.Product" />
+    <AssociationSet Name="FK_Products_Categorys" Association="BabyStoreModel.FK_Products_Categorys">
+      <End Role="Category" EntitySet="Categorys" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreateAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="Status" Type="Boolean" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <NavigationProperty Name="Products" Relationship="BabyStoreModel.FK_Products_Categorys" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="CreateAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="CategorieID" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="Boolean" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <NavigationProperty Name="Category" Relationship="BabyStoreModel.FK_Products_Categorys" FromRole="Product" ToRole="Category" />
+  </EntityType>
+  <Association Name="FK_Products_Categorys">
+    <End Type="BabyStoreModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="BabyStoreModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CategorieID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

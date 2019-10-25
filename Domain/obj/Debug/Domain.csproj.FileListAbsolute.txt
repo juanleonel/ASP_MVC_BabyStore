@@ -1,0 +1,16 @@
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\bin\Debug\Domain.dll.config
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\bin\Debug\Domain.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\bin\Debug\Domain.pdb
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\bin\Debug\Dapper.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\bin\Debug\EntityFramework.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\bin\Debug\Dapper.xml
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\bin\Debug\EntityFramework.xml
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\bin\Debug\es\EntityFramework.resources.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\bin\Debug\es\EntityFramework.SqlServer.resources.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\obj\Debug\Domain.csprojAssemblyReference.cache
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\obj\Debug\Domain.csproj.CoreCompileInputs.cache
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\obj\Debug\Domain.csproj.CopyComplete
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\obj\Debug\Domain.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Domain\obj\Debug\Domain.pdb
