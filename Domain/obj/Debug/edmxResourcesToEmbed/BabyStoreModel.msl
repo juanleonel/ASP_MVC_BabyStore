@@ -24,5 +24,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ProductsImages">
+      <EntityTypeMapping TypeName="BabyStoreModel.ProductsImage">
+        <MappingFragment StoreEntitySet="ProductsImage">
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

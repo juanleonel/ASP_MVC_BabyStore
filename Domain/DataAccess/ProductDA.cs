@@ -77,6 +77,8 @@ namespace Domain.DataAccess
                 using (var db_ = new BabyStoreEntities())
                 {
                     var products = db_.Products.Where(x => x.Status == false).ToList();
+
+                    result = products;
                 }
 
             }
@@ -99,7 +101,6 @@ namespace Domain.DataAccess
                     db_.SaveChanges();
                     result = product;
                 }
-
             }
             catch (Exception ex)
             {

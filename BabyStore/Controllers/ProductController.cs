@@ -1,5 +1,6 @@
 ﻿using BabyStore.Converter;
 using BabyStore.Models;
+using Commo;
 using Domain;
 using Domain.DataAccess;
 using PagedList;
@@ -66,9 +67,9 @@ namespace BabyStore.Controllers
 
             //ViewBag.Category = new SelectList(categories); 
 
-            const int PageItems = 3;
+            //const int PageItems = 3;
             int currentPage = (page ?? 1);
-            viewModel.Products = productsViewModel.ToPagedList(currentPage, PageItems);
+            viewModel.Products = productsViewModel.ToPagedList(currentPage, Constants.PageItems);
             viewModel.SortBy = sortBy;
 
             viewModel.Sorts = new Dictionary<string, string>

@@ -27,5 +27,6 @@ namespace Domain
     
         public virtual DbSet<Category> Categorys { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductsImage> ProductsImages { get; set; }
     }
 }

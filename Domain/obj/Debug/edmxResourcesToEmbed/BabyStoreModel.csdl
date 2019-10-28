@@ -7,6 +7,7 @@
       <End Role="Category" EntitySet="Categorys" />
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
+    <EntitySet Name="ProductsImages" EntityType="BabyStoreModel.ProductsImage" />
   </EntityContainer>
   <EntityType Name="Category">
     <Key>
@@ -43,4 +44,11 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="ProductsImage">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FileName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>

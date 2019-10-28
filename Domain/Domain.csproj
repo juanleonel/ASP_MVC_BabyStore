@@ -75,8 +75,12 @@
     <Compile Include="DapperBase.cs" />
     <Compile Include="DataAccess\CategoryDA.cs" />
     <Compile Include="DataAccess\ProductDA.cs" />
+    <Compile Include="DataAccess\ProductImageDA.cs" />
     <Compile Include="DTO\CategoryDTO.cs" />
     <Compile Include="Product.cs">
+      <DependentUpon>BabyStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductsImage.cs">
       <DependentUpon>BabyStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

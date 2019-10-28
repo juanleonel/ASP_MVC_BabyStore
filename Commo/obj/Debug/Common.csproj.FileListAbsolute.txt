@@ -1,0 +1,6 @@
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Commo\bin\Debug\Commo.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Commo\bin\Debug\Commo.pdb
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Commo\obj\Debug\Common.csprojAssemblyReference.cache
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Commo\obj\Debug\Common.csproj.CoreCompileInputs.cache
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Commo\obj\Debug\Commo.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\Commo\obj\Debug\Commo.pdb

@@ -20,7 +20,7 @@ namespace BabyStore.Converter
                 CreateAt = Category.CreateAt                
             };
         }
-
+        // 9831918641
         public static List<CategoryViewModel> ConvertCategoriesToCategoriesViewModel(List<Category> Categories)
         {
             List<CategoryViewModel> CategoriesModelView =
@@ -56,6 +56,30 @@ namespace BabyStore.Converter
             return productViewModel;
         }
 
+        #endregion
+
+        #region Images
+
+        public static ProductImageViewModel ConvertProductsImageToProductImageViewModel(ProductsImage ProductsImage)
+        {
+            return new ProductImageViewModel
+            {
+                ID = ProductsImage.ID,
+                FileName = ProductsImage.FileName                
+            };
+        }
+
+        public static List<ProductImageViewModel> ConvertProductsImageToProductImageViewModel(List<ProductsImage> ProductsImage)
+        {      
+            List<ProductImageViewModel> ProductImageViewModel = ProductsImage
+                .Select(p => new ProductImageViewModel
+                {
+                    ID = p.ID,
+                    FileName = p.FileName
+                }).ToList();
+
+            return ProductImageViewModel;
+        }
         #endregion
 
     }

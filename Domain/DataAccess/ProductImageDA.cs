@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain.DataAccess
+{
+    public class ProductImageDA
+    {
+
+        public List<ProductsImage> GetAll()
+        {
+            List<ProductsImage> result = null;
+
+            using (var db_ = new BabyStoreEntities())
+            {
+                result = db_.ProductsImages.ToList();
+            }
+
+            return result;
+        }
+
+        public ProductsImage Create(ProductsImage productsImage)
+        {
+            ProductsImage result = null;
+            
+            using (var db_ = new BabyStoreEntities())
+            {
+
+                db_.ProductsImages.Add(productsImage);
+                db_.SaveChanges();
+                result = productsImage;
+            }
+           
+            return result;
+        }
+    }
+}

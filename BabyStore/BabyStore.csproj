@@ -181,6 +181,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductImagesController.cs" />
     <Compile Include="Converter\ConvertEntityToModelView.cs" />
     <Compile Include="Converter\ConvertModelViewToEntity.cs" />
     <Compile Include="Global.asax.cs">
@@ -190,6 +191,7 @@
     <Compile Include="Models\CategoryViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ProductImageViewModel.cs" />
     <Compile Include="Models\ProductIndexViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -323,9 +325,12 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Category\Delete.cshtml" />
+    <Content Include="Views\ProductImages\Upload.cshtml" />
+    <Content Include="Views\ProductImages\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\ProductImages\Thumbnails\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -341,6 +346,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Commo\Common.csproj">
+      <Project>{620DF656-3D3D-4CA0-AD66-131F5C543BED}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{9CBB49FB-709C-4E25-8CC3-E1A0B0B51C38}</Project>
       <Name>Domain</Name>

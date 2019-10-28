@@ -12,7 +12,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="CreateAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
-          <Property Name="Status" Type="bit" Nullable="false" StoreGeneratedPattern="None" />
+          <Property Name="Status" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -24,7 +24,14 @@
           <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="CreateAt" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="CategorieID" Type="int" Nullable="false" />
-          <Property Name="Status" Type="bit" Nullable="false" StoreGeneratedPattern="None" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductsImage">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <Association Name="FK_Products_Categorys">
           <End Role="Categorys" Type="Self.Categorys" Multiplicity="1" />
@@ -41,6 +48,7 @@
         <EntityContainer Name="BabyStoreModelStoreContainer">
           <EntitySet Name="Categorys" EntityType="Self.Categorys" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductsImage" EntityType="Self.ProductsImage" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Products_Categorys" Association="Self.FK_Products_Categorys">
             <End Role="Categorys" EntitySet="Categorys" />
             <End Role="Products" EntitySet="Products" />
@@ -57,6 +65,7 @@
             <End Role="Category" EntitySet="Categorys" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
+          <EntitySet Name="ProductsImages" EntityType="BabyStoreModel.ProductsImage" />
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -93,6 +102,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ProductsImage">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -118,6 +134,14 @@
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductsImages">
+            <EntityTypeMapping TypeName="BabyStoreModel.ProductsImage">
+              <MappingFragment StoreEntitySet="ProductsImage">
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
