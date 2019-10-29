@@ -83,6 +83,9 @@
     <Compile Include="ProductsImage.cs">
       <DependentUpon>BabyStoreModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProductsXImage.cs">
+      <DependentUpon>BabyStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

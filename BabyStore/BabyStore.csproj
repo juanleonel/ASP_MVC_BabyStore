@@ -178,6 +178,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProductImageViewModel.cs" />
     <Compile Include="Models\ProductIndexViewModel.cs" />
+    <Compile Include="Models\ProductsXImagesViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -327,6 +329,7 @@
     <Content Include="Views\Category\Delete.cshtml" />
     <Content Include="Views\ProductImages\Upload.cshtml" />
     <Content Include="Views\ProductImages\Index.cshtml" />
+    <Content Include="Views\Error\FileUploadLimitExceeded.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

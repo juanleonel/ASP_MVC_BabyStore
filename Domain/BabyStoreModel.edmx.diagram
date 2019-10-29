@@ -5,10 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d87b8fc707dd4b3c94fd256d620ab22a" Name="Diagram1">
-        <EntityTypeShape EntityType="BabyStoreModel.Category" Width="1.5" PointX="0.75" PointY="1.25" />
-        <EntityTypeShape EntityType="BabyStoreModel.Product" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="BabyStoreModel.Category" Width="1.5" PointX="0.5" PointY="0.875" />
+        <EntityTypeShape EntityType="BabyStoreModel.Product" Width="1.5" PointX="2.75" PointY="0.5" />
+        <EntityTypeShape EntityType="BabyStoreModel.ProductsImage" Width="1.5" PointX="7.375" PointY="2.75" />
+        <EntityTypeShape EntityType="BabyStoreModel.ProductsXImage" Width="1.5" PointX="5.5" PointY="0.5" />
         <AssociationConnector Association="BabyStoreModel.FK_Products_Categorys" />
-        <EntityTypeShape EntityType="BabyStoreModel.ProductsImage" Width="1.5" PointX="0.75" PointY="4.75" />
+        <AssociationConnector Association="BabyStoreModel.FK_ProductsXImages_Products" />
+        <AssociationConnector Association="BabyStoreModel.FK_ProductsXImages_ProductsImage" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

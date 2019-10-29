@@ -52,7 +52,6 @@ namespace BabyStore.Controllers
         public ActionResult Upload(HttpPostedFileBase[] files)
         {
             bool allValid = true;
-            //string inValidFiles = "";
             bool duplicates = false;
             bool otherDbError = false;
 
@@ -105,8 +104,6 @@ namespace BabyStore.Controllers
             }
             if (ModelState.IsValid)
             {
-
-
                 System.Text.StringBuilder duplicateFiles = new System.Text.StringBuilder();
                 foreach (var file in files)
                 {
@@ -162,9 +159,7 @@ namespace BabyStore.Controllers
                     ModelState.AddModelError("FileName", "Sorry an error has occurred saving to the  database, please try again");
                     return View();
                 }
-
                 return RedirectToAction("Index");
-
             }
             return View();
 

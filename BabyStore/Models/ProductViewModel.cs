@@ -32,5 +32,6 @@ namespace BabyStore.Models
         public string CategoryName { get; set; }
         public int CategorieID { get; set; }
         public CategoryViewModel Category { get; set; }
+        List<ProductsXImagesViewModel> Images { get; set; }
     }
 }

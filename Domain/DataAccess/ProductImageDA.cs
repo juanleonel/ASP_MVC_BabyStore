@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,9 +25,10 @@ namespace Domain.DataAccess
         public ProductsImage Create(ProductsImage productsImage)
         {
             ProductsImage result = null;
-            
+           
             using (var db_ = new BabyStoreEntities())
             {
+                db_.Database.Log = sql => Trace.WriteLine(sql);
 
                 db_.ProductsImages.Add(productsImage);
                 db_.SaveChanges();

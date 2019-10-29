@@ -11,5 +11,6 @@ namespace BabyStore.Models
         public int ID { get; set; }
         [Display(Name = "File")]
         public string FileName { get; set; }
+        List<ProductsXImagesViewModel> Images { get; set; }
     }
 }

@@ -14,6 +14,12 @@ namespace Domain
     
     public partial class Product
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Product()
+        {
+            this.ProductsXImages = new HashSet<ProductsXImage>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -23,5 +29,7 @@ namespace Domain
         public bool Status { get; set; }
     
         public virtual Category Category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductsXImage> ProductsXImages { get; set; }
     }
 }
