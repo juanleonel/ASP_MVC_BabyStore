@@ -40,17 +40,26 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.CategorieID, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.CategorieID,
-                                new SelectList(ViewBag.Categories, "ID", "Name"),
-                                "Select category", new { @class = "form-control" })
+            @Html.DropDownListFor(vm => vm.CategorieID, Model.CategoryList, htmlAttributes: new { @class = "form-control" })
 
             @* @Html.EditorFor(model => model.SexoID, new { htmlAttributes = new { @class = "form-control" } })*@
             @Html.ValidationMessageFor(model => model.CategorieID, "", new { @class = "text-danger" })
         </div>
     </div>
-
+    @for (int i = 0; i < Model.ImageLists.Count; i++)
+    {
+        <div class="form-group">
+            <label class="control-label col-md-2">Product Image @(i + 1):</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(vm => vm.ProductImages, Model.ImageLists[i], "Choose Image",
+                htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ImageLists, "", new { @class = "textdanger"
+                })
+            </div>
+        </div>
+    }
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Create" class="btn btn-default" />

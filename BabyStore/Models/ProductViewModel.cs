@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace BabyStore.Models
 {
@@ -29,9 +30,14 @@ namespace BabyStore.Models
         public decimal Price { get; set; }
 
         public System.DateTime CreateAt { get; set; }
+
         public string CategoryName { get; set; }
         public int CategorieID { get; set; }
         public CategoryViewModel Category { get; set; }
+        public SelectList CategoryList { get; set; }
+
+        public List<SelectList> ImageLists { get; set; }
+        public string[] ProductImages { get; set; }
         List<ProductsXImagesViewModel> Images { get; set; }
     }
 }

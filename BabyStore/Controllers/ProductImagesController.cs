@@ -15,22 +15,25 @@ namespace BabyStore.Controllers
     public class ProductImagesController : Controller
     {
 
-        #region Dependencias
+        private readonly IUnitOfWork _unitOfWork;
 
-        private ProductImageDA _productImageDA;
-        private ProductImageDA ProductImageDA
+        public ProductImagesController()
         {
-            get { return _productImageDA ?? (_productImageDA = new ProductImageDA()); }
+
         }
 
-        #endregion
+        public ProductImagesController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
 
         // GET: ProductImages
         public ActionResult Index()
         {
-            var ProductImages = ProductImageDA.GetAll();
+            var productImages = _unitOfWork.ProductImage.GetAll();
 
-            List<ProductImageViewModel> images = ConvertEntityToModelView.ConvertProductsImageToProductImageViewModel(ProductImages); ;
+            List<ProductImageViewModel> images = ConvertEntityToModelView.ConvertProductsImageToProductImageViewModel(productImages.ToList()); ;
 
             return View(images);
         }
@@ -111,7 +114,9 @@ namespace BabyStore.Controllers
                     var productToAdd = new Domain.ProductsImage { FileName = file.FileName };
                     try
                     {
-                        ProductImageDA.Create(productToAdd);                      
+                        _unitOfWork.ProductImage.Add(productToAdd);
+                        _unitOfWork.Complete();
+                        //ProductImageDA.Create(productToAdd);                      
                     }
                     //if there is an exception check if it is caused by a duplicate file
                     catch (Exception ex)
@@ -125,7 +130,8 @@ namespace BabyStore.Controllers
                             {
                                 case 2627:  // Unique constraint error     
                                     duplicateFiles.Append(", " + file.FileName);
-                                    duplicates = true;                                    
+                                    duplicates = true;
+                                    //_unitOfWork.ProductImage.Detached(productToAdd);
                                     break;
                                 case 547:   // Constraint check violation
                                     break;

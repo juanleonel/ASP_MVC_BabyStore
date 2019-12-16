@@ -126,3 +126,16 @@ C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\PagedList.xml
 C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\PagedList.Mvc.xml
 C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\Commo.dll
 C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\Commo.pdb
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\CommonServiceLocator.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\Microsoft.Practices.ServiceLocation.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\StructureMap.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\StructureMap.Net4.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\StructureMap.Web.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\WebActivatorEx.dll
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\Microsoft.Practices.ServiceLocation.pdb
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\Microsoft.Practices.ServiceLocation.xml
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\StructureMap.pdb
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\StructureMap.xml
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\StructureMap.Net4.pdb
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\StructureMap.Web.pdb
+C:\Users\JUAN LEONEL\source\repos\BabyStore\BabyStore\bin\StructureMap.Web.xml

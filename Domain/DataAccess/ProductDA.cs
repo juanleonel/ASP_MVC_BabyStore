@@ -9,9 +9,7 @@ namespace Domain.DataAccess
 {
     public class ProductDA
     {
-        private readonly BabyStoreEntities db_ = new BabyStoreEntities();
-
-
+        
         public List<Product> GetAll(string category = "", string search = "", string sortBy ="")
         {
             List<Product> result = null;
@@ -68,7 +66,7 @@ namespace Domain.DataAccess
           
         }
 
-
+        /*
         public List<Product> GetAll()
         {
             List<Product> result = null;
@@ -87,7 +85,7 @@ namespace Domain.DataAccess
                 throw new Exception("Hubo un problema " + ex.Message);
             }
             return result;
-        }
+        }*/
 
         public Product Create(Product product)
         {
@@ -147,5 +145,17 @@ namespace Domain.DataAccess
 
             return result;
         }
+ 
+        /*
+        public override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }*/
+
+        
     }
 }

@@ -12,14 +12,27 @@ namespace BabyStore.Controllers
 {
     public class CategoryController : Controller
     {
+        
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CategoryController()
+        {
+           
+        }
+
+        public CategoryController(IUnitOfWork unitOfWork) 
+        {
+            _unitOfWork = unitOfWork;
+        }
+ 
 
         #region Dependencias 
-
+        /*
         private CategoryDA _categoryDA;
         private CategoryDA CategoryDA
         {
             get { return _categoryDA ?? (_categoryDA = new CategoryDA()); }
-        }
+        }*/
 
         #endregion
 
@@ -27,11 +40,13 @@ namespace BabyStore.Controllers
         // GET: Category
         public ActionResult Index()
         {
-            var Categories = CategoryDA.GetAll();
+            //var Categories = CategoryDA.GetAll();
 
-            List<CategoryViewModel> CategoriesView = ConvertEntityToModelView.ConvertCategoriesToCategoriesViewModel(Categories);
+            var categories = _unitOfWork.Category.GetAll( x => x.Status == false ); //CategoryDA.GetAll();
 
-            return View(CategoriesView);
+            List<CategoryViewModel> modelView = ConvertEntityToModelView.ConvertCategoriesToCategoriesViewModel(categories.ToList());
+
+            return View(modelView);
         }
 
         // GET: Category/Details/5
@@ -58,14 +73,17 @@ namespace BabyStore.Controllers
                 if (!ModelState.IsValid)
                     return View();
 
-                Category category = ConvertModelViewToEntity.ConvertCategoryViewModelToCategory(categoryModelView);
+                var category = ConvertModelViewToEntity.ConvertCategoryViewModelToCategory(categoryModelView);
 
-                category = CategoryDA.Create(category);
+                _unitOfWork.Category.Add(category);
+                _unitOfWork.Complete();
 
+                //category = CategoryDA.Create(category);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 return View();
             }
         }
@@ -78,16 +96,19 @@ namespace BabyStore.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Category Category = CategoryDA.GetByID(id);
 
-            if (Category == null)
+            var category = _unitOfWork.Category.Get(id);
+
+            //var Category = CategoryDA.GetByID(id);
+
+            if (category == null)
             {
                 return HttpNotFound();
             }
 
-            CategoryViewModel category = ConvertEntityToModelView.ConvertCategoryToCategoryViewModel(Category);
+            CategoryViewModel model = ConvertEntityToModelView.ConvertCategoryToCategoryViewModel(category);
 
-            return View(category);            
+            return View(model);            
         }
 
         // POST: Category/Edit/5
@@ -101,14 +122,18 @@ namespace BabyStore.Controllers
                     return View(); 
 
 
-                Category category = ConvertModelViewToEntity.ConvertCategoryViewModelToCategory(categoryModelView);
+                var category = ConvertModelViewToEntity.ConvertCategoryViewModelToCategory(categoryModelView);
 
-                category = CategoryDA.Update(category);
+                _unitOfWork.Category.Update(category);
+                _unitOfWork.Complete();
+
+                //category = CategoryDA.Update(category);
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                ModelState.AddModelError("", "Unable to update changes. Try again, and if the problem persists, see your system administrator.");
                 return View();
             }
         }
@@ -121,16 +146,17 @@ namespace BabyStore.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Category Category = CategoryDA.GetByID(id);
+            var category = _unitOfWork.Category.Get(id);
+            //var Category = CategoryDA.GetByID(id);
 
-            if (Category == null)
+            if (category == null)
             {
                 return HttpNotFound();
             }
 
-            CategoryViewModel category = ConvertEntityToModelView.ConvertCategoryToCategoryViewModel(Category);
+            CategoryViewModel model = ConvertEntityToModelView.ConvertCategoryToCategoryViewModel(category);
 
-            return View(category);
+            return View(model);
         }
 
         // POST: Category/Delete/5
@@ -144,30 +170,30 @@ namespace BabyStore.Controllers
                 {
                     return View();
                 }
-
-                Category category = CategoryDA.GetByID(categoryModelView.ID);
+                var category = _unitOfWork.Category.Get(categoryModelView.ID);
+                //var category = UnitOfWork.CategoryRepository.GetByID(categoryModelView.ID);
 
                 if (category == null)
                 {
                     return HttpNotFound();
                 }
-                
+
                 category.Status = true;
 
-                bool result = CategoryDA.Delete(category);
+                _unitOfWork.Category.Update(category);
+                _unitOfWork.Complete();
+                 
 
-                if (result)
-                {
-                    return RedirectToAction("Index");
-                }
-
-                return View();
+                //bool result = CategoryDA.Delete(category);
+                return RedirectToAction("Index");
+                              
                 // TODO: Add delete logic here
 
 
             }
-            catch
+            catch (Exception ex)
             {
+                ModelState.AddModelError("", "Unable to update changes. Try again, and if the problem persists, see your system administrator.");
                 return View();
             }
         }

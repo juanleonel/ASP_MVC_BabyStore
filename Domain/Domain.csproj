@@ -74,6 +74,15 @@
     </Compile>
     <Compile Include="DapperBase.cs" />
     <Compile Include="DataAccess\CategoryDA.cs" />
+    <Compile Include="DataAccess\CategoryRepository.cs" />
+    <Compile Include="DataAccess\ProductImageRepository.cs" />
+    <Compile Include="DataAccess\ProductRepository.cs" />
+    <Compile Include="DataAccess\Repository.cs" />
+    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="Repositories\ICategoryRepository.cs" />
+    <Compile Include="Repositories\IProductImageRepository.cs" />
+    <Compile Include="Repositories\IProductRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="DataAccess\ProductDA.cs" />
     <Compile Include="DataAccess\ProductImageDA.cs" />
     <Compile Include="DTO\CategoryDTO.cs" />
@@ -87,6 +96,7 @@
       <DependentUpon>BabyStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="BabyStoreModel.edmx">

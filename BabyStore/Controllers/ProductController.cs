@@ -15,6 +15,19 @@ namespace BabyStore.Controllers
     public class ProductController : Controller
     {
 
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ProductController()
+        {
+
+        }
+
+        public ProductController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+
         #region Dependencias 
 
         private ProductDA _productDA;
@@ -29,16 +42,27 @@ namespace BabyStore.Controllers
             get { return _categoryDA ?? (_categoryDA = new CategoryDA()); }
         }
 
+        private ProductImageDA _productImageDA;
+        private ProductImageDA ProductImageDA
+        {
+            get { return _productImageDA ?? (_productImageDA = new ProductImageDA()); }
+        }
+
         #endregion
 
         // GET: Product
         public ActionResult Index(string category, string search, string sortBy, int? page)
         {
+            //var model = GetProductos(string category, string search, string sortBy, int ? pag);
+
             ProductIndexViewModel viewModel = new ProductIndexViewModel();
 
-            var products = ProductDA.GetAll(category, search, sortBy);
 
-            List<ProductViewModel> productsViewModel = ConvertEntityToModelView.ConvertProductsToProductsViewModel(products);  // ConvertProductsToCategoriesViewModel.
+            var products = _unitOfWork.Product.GetProductsWithCategory(category, search, sortBy);
+
+            //var products = ProductDA.GetAll(category, search, sortBy);
+
+            List<ProductViewModel> productsViewModel = ConvertEntityToModelView.ConvertProductsToProductsViewModel(products.ToList());  // ConvertProductsToCategoriesViewModel.
 
             if (!String.IsNullOrEmpty(search))
             {
@@ -90,26 +114,83 @@ namespace BabyStore.Controllers
         // GET: Product/Create
         public ActionResult Create()
         {
-            var CategoryList = CategoryDA.GetAll();
+            var model = ModelsToCreate();
 
-            List<CategoryViewModel> categories = ConvertEntityToModelView.ConvertCategoriesToCategoriesViewModel(CategoryList);
-            ViewBag.Categories = categories;         
-            return View();
+            return View(model);
         }
+
+        public ProductViewModel ModelsToCreate()
+        {
+            var categories = _unitOfWork.Category.GetAll(x => x.Status == false);
+
+            ProductViewModel model = new ProductViewModel();
+
+            model.CategoryList = new SelectList(categories, "ID", "Name");
+
+            model.ImageLists = new List<SelectList>();
+
+            for (int i = 0; i < Constants.NumberOfProductImages; i++)
+            {
+                var images = _unitOfWork.ProductImage.GetAll();
+                model.ImageLists.Add(new SelectList(images.ToList(), "ID", "FileName"));
+            }
+
+            return model;
+        }
+
 
         // POST: Product/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include ="Id, Name, Description,Price, CategoryID")]FormCollection collection)
+        public ActionResult Create(ProductViewModel productViewModel)
         {
             try
             {
-                // TODO: Add insert logic here
+                Product product = new Product();
+                product.Name = productViewModel.Name;
+                product.Description = productViewModel.Description;
+                product.Price = productViewModel.Price;
+                product.CategorieID = productViewModel.CategorieID;
+                product.ProductsXImages = new List<Domain.ProductsXImage>();
 
-                return RedirectToAction("Index");
+                string[] productImages = productViewModel
+                                        .ProductImages
+                                        .Where(x => !string.IsNullOrEmpty(x))
+                                        .ToArray();
+
+                int z = 0;
+                foreach (var item in productImages)
+                {
+                    z++;
+                    product.ProductsXImages.Add(new ProductsXImage {
+                        ImageNumber = z,
+                        ProductsImage = _unitOfWork.ProductImage.Get(Convert.ToInt32(item)) // ProductImageDA.GetByID(Convert.ToInt32( item ))
+                    });
+                }
+
+                if (ModelState.IsValid)
+                {
+                    _unitOfWork.Product.Add(product);
+                    _unitOfWork.Complete();                   
+                    return RedirectToAction("Index");
+                }
+
+                productViewModel.CategoryList = new SelectList(_unitOfWork.Category.GetAll(x => x.Status == false));
+                productViewModel.ImageLists = new List<SelectList>();
+
+                for (int i = 0; i < Constants.NumberOfProductImages; i++)
+                {
+                    var images = _unitOfWork.ProductImage.GetAll();
+                    productViewModel.ImageLists.Add(new SelectList(images.ToList(), "ID", "FileName",
+                    productViewModel.ProductImages[i]));
+                }
+
+                return View(productViewModel);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                Console.WriteLine(ex.GetBaseException().Message);
+                var model = ModelsToCreate();
+                return View(model);
             }
         }
 

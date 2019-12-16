@@ -3,11 +3,20 @@
   <EntityContainer Name="BabyStoreEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Categorys" EntityType="BabyStoreModel.Category" />
     <EntitySet Name="Products" EntityType="BabyStoreModel.Product" />
+    <EntitySet Name="ProductsImages" EntityType="BabyStoreModel.ProductsImage" />
+    <EntitySet Name="ProductsXImages" EntityType="BabyStoreModel.ProductsXImage" />
     <AssociationSet Name="FK_Products_Categorys" Association="BabyStoreModel.FK_Products_Categorys">
       <End Role="Category" EntitySet="Categorys" />
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
-    <EntitySet Name="ProductsImages" EntityType="BabyStoreModel.ProductsImage" />
+    <AssociationSet Name="FK_ProductsXImages_Products" Association="BabyStoreModel.FK_ProductsXImages_Products">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="ProductsXImage" EntitySet="ProductsXImages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductsXImages_ProductsImage" Association="BabyStoreModel.FK_ProductsXImages_ProductsImage">
+      <End Role="ProductsImage" EntitySet="ProductsImages" />
+      <End Role="ProductsXImage" EntitySet="ProductsXImages" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Category">
     <Key>
@@ -16,7 +25,7 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="CreateAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
-    <Property Name="Status" Type="Boolean" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Products" Relationship="BabyStoreModel.FK_Products_Categorys" FromRole="Category" ToRole="Product" />
   </EntityType>
   <EntityType Name="Product">
@@ -29,8 +38,28 @@
     <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="CreateAt" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
     <Property Name="CategorieID" Type="Int32" Nullable="false" />
-    <Property Name="Status" Type="Boolean" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Category" Relationship="BabyStoreModel.FK_Products_Categorys" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="ProductsXImages" Relationship="BabyStoreModel.FK_ProductsXImages_Products" FromRole="Product" ToRole="ProductsXImage" />
+  </EntityType>
+  <EntityType Name="ProductsImage">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FileName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ProductsXImages" Relationship="BabyStoreModel.FK_ProductsXImages_ProductsImage" FromRole="ProductsImage" ToRole="ProductsXImage" />
+  </EntityType>
+  <EntityType Name="ProductsXImage">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="ProductImageID" Type="Int32" Nullable="false" />
+    <Property Name="ImageNumber" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="BabyStoreModel.FK_ProductsXImages_Products" FromRole="ProductsXImage" ToRole="Product" />
+    <NavigationProperty Name="ProductsImage" Relationship="BabyStoreModel.FK_ProductsXImages_ProductsImage" FromRole="ProductsXImage" ToRole="ProductsImage" />
   </EntityType>
   <Association Name="FK_Products_Categorys">
     <End Type="BabyStoreModel.Category" Role="Category" Multiplicity="1" />
@@ -44,11 +73,28 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="ProductsImage">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FileName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-  </EntityType>
+  <Association Name="FK_ProductsXImages_Products">
+    <End Type="BabyStoreModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="BabyStoreModel.ProductsXImage" Role="ProductsXImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProductsXImage">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductsXImages_ProductsImage">
+    <End Type="BabyStoreModel.ProductsImage" Role="ProductsImage" Multiplicity="1" />
+    <End Type="BabyStoreModel.ProductsXImage" Role="ProductsXImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductsImage">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProductsXImage">
+        <PropertyRef Name="ProductImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

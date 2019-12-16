@@ -37,5 +37,17 @@ namespace Domain.DataAccess
            
             return result;
         }
+
+        public ProductsImage GetByID(int? Id)
+        {
+            ProductsImage result = null;
+
+            using (var db_ = new BabyStoreEntities())
+            {
+                result = db_.ProductsImages.Find(Id);            
+            }
+
+            return result;
+        }
     }
 }
