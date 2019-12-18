@@ -22,7 +22,7 @@ namespace Domain.DataAccess
 
         public IEnumerable<Product> GetProductsWithCategory(string category = "", string search = "", string sortBy = "")
         {
-            var products = BabyStoreEntities.Products.Include(p => p.Category);
+            var products = BabyStoreEntities.Products.Include(p => p.Category).Include(i => i.ProductsXImages);
 
             if (!String.IsNullOrEmpty(category))
                 products = products.Where(p => p.Category.Name ==category);
@@ -54,7 +54,10 @@ namespace Domain.DataAccess
 
         }
 
-
+        public Product GetProductWithImages(int id)
+        {
+            return BabyStoreEntities.Products.Include(p => p.ProductsXImages).Where(x => x.ID == id).FirstOrDefault();
+        }
 
         public BabyStoreEntities BabyStoreEntities
         {

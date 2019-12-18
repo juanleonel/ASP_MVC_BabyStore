@@ -44,7 +44,7 @@ namespace BabyStore.Controllers
 
             var categories = _unitOfWork.Category.GetAll( x => x.Status == false ); //CategoryDA.GetAll();
 
-            List<CategoryViewModel> modelView = ConvertEntityToModelView.ConvertCategoriesToCategoriesViewModel(categories.ToList());
+            List<CategoryViewModel> modelView = ConvertEntityToModelView.CategoriesToModel(categories.ToList());
 
             return View(modelView);
         }
@@ -106,7 +106,7 @@ namespace BabyStore.Controllers
                 return HttpNotFound();
             }
 
-            CategoryViewModel model = ConvertEntityToModelView.ConvertCategoryToCategoryViewModel(category);
+            CategoryViewModel model = ConvertEntityToModelView.CategoryToModel(category);
 
             return View(model);            
         }
@@ -154,7 +154,7 @@ namespace BabyStore.Controllers
                 return HttpNotFound();
             }
 
-            CategoryViewModel model = ConvertEntityToModelView.ConvertCategoryToCategoryViewModel(category);
+            CategoryViewModel model = ConvertEntityToModelView.CategoryToModel(category);
 
             return View(model);
         }

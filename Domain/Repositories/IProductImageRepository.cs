@@ -8,6 +8,6 @@ namespace Domain.Repositories
 {
     public interface IProductImageRepository : IRepository<ProductsImage>
     {
-
+        
     }
 }

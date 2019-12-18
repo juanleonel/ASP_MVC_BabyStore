@@ -1,0 +1,57 @@
+﻿@model BabyStore.Models.ProductViewModel
+@{
+    ViewBag.Title = "Product Details";
+}
+<h2>@ViewBag.Title</h2>
+<div>
+    <hr />
+   
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        @if (Model.productsXImagesViewModel != null && Model.productsXImagesViewModel.Any())
+        {
+            <dt></dt>
+            <dd>
+                <img src="@(Url.Content( Commo.Constants.ProductImagePath ) + Model.productsXImagesViewModel.OrderBy(pim =>
+pim.ImageNumber).ElementAt(0).ProductsImage.FileName)"
+                     style=padding:5px>
+            </dd>
+            <dt></dt>
+            <dd>
+                @foreach (var item in Model.productsXImagesViewModel.OrderBy(pim => pim.ImageNumber))
+                {
+                    <a href="@(Url.Content( Commo.Constants.ProductImagePath ) + item.ProductsImage.FileName)">
+                        <img src="@(Url.Content( Commo.Constants.ProductImagePath ) + item.ProductsImage.FileName)" style=padding:5px>
+                    </a>
+                }
+            </dd>
+        }
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

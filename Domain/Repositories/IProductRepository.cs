@@ -11,5 +11,7 @@ namespace Domain.Repositories
         Product GetProductWithCategories(int id);
 
         IEnumerable<Product> GetProductsWithCategory(string category = "", string search = "", string sortBy = "");
+
+        Product GetProductWithImages(int id);
     }
 }

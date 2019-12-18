@@ -33,7 +33,7 @@ namespace BabyStore.Controllers
         {
             var productImages = _unitOfWork.ProductImage.GetAll();
 
-            List<ProductImageViewModel> images = ConvertEntityToModelView.ConvertProductsImageToProductImageViewModel(productImages.ToList()); ;
+            List<ProductImageViewModel> images = ConvertEntityToModelView.ProductsImageToModel(productImages.ToList()); ;
 
             return View(images);
         }
@@ -271,23 +271,49 @@ namespace BabyStore.Controllers
         }
 
         // GET: ProductImages/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+        public ActionResult Delete(int? id)
+        {          
+            var productsImage = _unitOfWork.ProductImage.Get(id);
+            var model = ConvertEntityToModelView.ProductsImageToModel(productsImage);
+            return View(model);
         }
 
         // POST: ProductImages/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, ProductImageViewModel model)
         {
             try
             {
-                // TODO: Add delete logic here
+                var ProductImage = _unitOfWork.ProductImage.Get(id);
+
+                var mappings = ProductImage.ProductsXImages.Where(x => x.ProductImageID == id);
+
+                foreach (var mapping in mappings)
+                {
+                    var mappingUpdate = _unitOfWork.ProductsXImage.Find(x => x.ProductID == mapping.ProductID);
+                    //for each image in each product change its imagenumber to one lower if it is higher
+                    //than the current image
+                    foreach (var mappingToUpdate in mappingUpdate)
+                    {
+                        if (mappingToUpdate.ImageNumber > mapping.ImageNumber)
+                        {
+                            mappingToUpdate.ImageNumber--;
+                        }
+                    }
+                }
+
+                System.IO.File.Delete(Request.MapPath(Constants.ProductImagePath + ProductImage.FileName));
+
+                System.IO.File.Delete(Request.MapPath(Constants.ProductThumbnailPath + ProductImage.FileName));
+
+                _unitOfWork.ProductImage.Remove(ProductImage);
+                _unitOfWork.Complete();
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.GetBaseException().Message);
                 return View();
             }
         }

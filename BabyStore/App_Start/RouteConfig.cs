@@ -14,6 +14,12 @@ namespace BabyStore
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "ProductDetails",
+                url: "Product/Details",
+                defaults: new { controller = "Product", action = "Details" }
+            );
+
+            routes.MapRoute(
                 name: "ProductCreate",
                 url: "Product/Create",
                 defaults: new { controller = "Product", action = "Create" }

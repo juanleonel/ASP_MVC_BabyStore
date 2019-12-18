@@ -7,6 +7,7 @@ using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -27,29 +28,6 @@ namespace BabyStore.Controllers
             _unitOfWork = unitOfWork;
         }
 
-
-        #region Dependencias 
-
-        private ProductDA _productDA;
-        private ProductDA ProductDA
-        {
-            get { return _productDA ?? (_productDA = new ProductDA()); }
-        }
-
-        private CategoryDA _categoryDA;
-        private CategoryDA CategoryDA
-        {
-            get { return _categoryDA ?? (_categoryDA = new CategoryDA()); }
-        }
-
-        private ProductImageDA _productImageDA;
-        private ProductImageDA ProductImageDA
-        {
-            get { return _productImageDA ?? (_productImageDA = new ProductImageDA()); }
-        }
-
-        #endregion
-
         // GET: Product
         public ActionResult Index(string category, string search, string sortBy, int? page)
         {
@@ -62,7 +40,7 @@ namespace BabyStore.Controllers
 
             //var products = ProductDA.GetAll(category, search, sortBy);
 
-            List<ProductViewModel> productsViewModel = ConvertEntityToModelView.ConvertProductsToProductsViewModel(products.ToList());  // ConvertProductsToCategoriesViewModel.
+            List<ProductViewModel> productsViewModel = ConvertEntityToModelView.ProductsToModel(products.ToList());  // ConvertProductsToCategoriesViewModel.
 
             if (!String.IsNullOrEmpty(search))
             {
@@ -108,7 +86,11 @@ namespace BabyStore.Controllers
         // GET: Product/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var product = _unitOfWork.Product.Get(id);
+
+            var model = Converter.ConvertEntityToModelView.ProductToModel(product);
+
+            return View(model);
         }
 
         // GET: Product/Create
@@ -195,20 +177,116 @@ namespace BabyStore.Controllers
         }
 
         // GET: Product/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var product = _unitOfWork.Product.Get(id);
+
+            if (product == null) {
+                return HttpNotFound();
+            }
+
+            var categories = _unitOfWork.Category.GetAll(x => x.Status == false);
+
+            ProductViewModel model = new ProductViewModel();
+
+            model = ConvertEntityToModelView.ProductToModel(product);
+
+            model.CategoryList = new SelectList(categories, "ID", "Name", product.CategorieID);
+
+            model.ImageLists = new List<SelectList>();
+
+            foreach (var item in product.ProductsXImages.OrderBy( x => x.ImageNumber))
+            {
+                var productImage = _unitOfWork.ProductImage.GetAll();
+                model.ImageLists.Add(new SelectList(productImage.ToList(), "ID", "FileName", item.ProductImageID));
+            }
+
+            for (int i = model.ImageLists.Count; i < Constants.NumberOfProductImages; i++)
+            {
+                var productImage = _unitOfWork.ProductImage.GetAll();
+                model.ImageLists.Add(new SelectList(productImage.ToList(), "ID", "FileName"));
+            }
+
+            
+
+            return View(model);
         }
 
         // POST: Product/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(ProductViewModel model)
         {
             try
             {
                 // TODO: Add update logic here
+                var productUpdate = _unitOfWork.Product.GetProductWithImages(model.ID);
 
-                return RedirectToAction("Index");
+                if (TryUpdateModel(productUpdate, "", new string[] { "Name", "Description", "Price", "CategorieID" }))
+                {                     
+                    if (productUpdate.ProductsXImages == null)
+                    {
+                        productUpdate.ProductsXImages = new List<Domain.ProductsXImage>();
+
+                    }
+
+                    string[] productImages = model.ProductImages
+                                                    .Where(pi => !string.IsNullOrEmpty(pi))
+                                                    .ToArray();
+
+                    for (int i = 0; i < productImages.Length; i++)
+                    {
+                        //get the image currently stored
+                        var imageMappingToEdit = productUpdate.ProductsXImages.Where(pim => pim.ImageNumber == i).FirstOrDefault();
+                        //find the new image
+                        var image = _unitOfWork.ProductImage.Get(int.Parse(productImages[i]));
+
+                        //if there is nothing stored then we need to add a new mapping
+                        if (imageMappingToEdit == null)
+                        {
+                            productUpdate.ProductsXImages.Add(new ProductsXImage {
+                                ImageNumber = i,
+                                ProductsImage = image,
+                                ProductImageID = image.ID
+                            });
+                        }
+                        //else it's not a new file so edit the current mapping
+                        else
+                        {
+                            //if they are not the same
+                            if (imageMappingToEdit.ProductImageID != int.Parse(productImages[i]))
+                            {
+                                //assign image property of the image mapping
+                                imageMappingToEdit.ProductsImage = image;
+                            }
+                        }
+                    }
+                    //delete any other imagemappings that the user did not include in their
+                    //selections for the product
+                    for (int i = productImages.Length; i < Constants.NumberOfProductImages; i++)
+                    {
+                        var imageMappingToEdit = productUpdate.ProductsXImages.Where(pim => pim.ImageNumber == i).FirstOrDefault();
+                        //if there is something stored in the mapping
+                        if (imageMappingToEdit != null)
+                        {
+                            //delete the record from the mapping table directly.
+                            //just calling productToUpdate.ProductImageMappings.Remove(imageMappingToEdit)
+                            //results in a FK error
+                            //ProductsXImages
+                            _unitOfWork.ProductsXImage.Remove(imageMappingToEdit);
+                            //db.ProductImageMappings.Remove(imageMappingToEdit);
+                        }
+                    }
+
+                    _unitOfWork.Complete();
+                    return RedirectToAction("Index");
+                }
+
+                return View();
             }
             catch
             {
@@ -223,13 +301,12 @@ namespace BabyStore.Controllers
         }
 
         // POST: Product/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                
                 return RedirectToAction("Index");
             }
             catch

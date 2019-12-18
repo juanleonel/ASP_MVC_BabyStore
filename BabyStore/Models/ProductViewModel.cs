@@ -38,6 +38,6 @@ namespace BabyStore.Models
 
         public List<SelectList> ImageLists { get; set; }
         public string[] ProductImages { get; set; }
-        List<ProductsXImagesViewModel> Images { get; set; }
+        public List<ProductsXImagesViewModel> productsXImagesViewModel { get; set; }
     }
 }

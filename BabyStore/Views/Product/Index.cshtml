@@ -30,6 +30,7 @@
 </p>
 <table class="table">
     <tr>
+        <td></td>
         <th>
             @Html.DisplayNameFor(model => model.Category)
         </th>
@@ -50,6 +51,14 @@
     @foreach (var item in Model.Products)
     {
         <tr>
+            <td>
+                @if (item.productsXImagesViewModel != null && item.productsXImagesViewModel.Any())
+                {
+                    <a href="@Url.Action("Details", new { id = item.ID })">
+                        <img src="@(Url.Content( Commo.Constants.ProductImagePath) + item.productsXImagesViewModel.OrderBy(pim => pim.ImageNumber).ElementAt(0).ProductsImage.FileName)">
+                    </a>
+                }
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
