@@ -14,6 +14,8 @@ using BabyStore.Models;
 
 namespace BabyStore
 {
+    #region Servicios
+
     public class EmailService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
@@ -31,6 +33,10 @@ namespace BabyStore
             return Task.FromResult(0);
         }
     }
+
+    #endregion
+
+    # region ApplicationUserManager
 
     // Configure el administrador de usuarios de aplicación que se usa en esta aplicación. UserManager se define en ASP.NET Identity y se usa en la aplicación.
     public class ApplicationUserManager : UserManager<ApplicationUser>
@@ -88,6 +94,9 @@ namespace BabyStore
         }
     }
 
+    #endregion
+
+    #region ApplicationSignInManager
     // Configure el administrador de inicios de sesión que se usa en esta aplicación.
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {
@@ -106,4 +115,6 @@ namespace BabyStore
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
     }
+
+    #endregion
 }

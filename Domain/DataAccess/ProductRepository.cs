@@ -8,6 +8,9 @@ using System.Data.Entity;
 
 namespace Domain.DataAccess
 { 
+    /// <summary>
+    /// Metodos personalizados
+    /// </summary>
     public class ProductRepository : Repository<Product>, IProductRepository
     {
         public ProductRepository(BabyStoreEntities context) 

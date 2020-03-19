@@ -19,7 +19,6 @@ namespace Domain
             Category = new CategoryRepository(_context);
             ProductImage = new ProductImageRepository(_context);
             ProductsXImage = new ProductsXImageRepository(_context);
-
         }
 
 
@@ -27,6 +26,16 @@ namespace Domain
         public ICategoryRepository Category { get; private set; }
         public IProductImageRepository ProductImage { get; private set; }
         public IProductsXImageRepository ProductsXImage { get; private set; }
+
+
+        #region Auth
+
+
+
+
+        #endregion
+
+
 
 
         public int Complete()

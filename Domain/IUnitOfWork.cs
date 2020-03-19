@@ -13,6 +13,7 @@ namespace Domain
         IProductRepository Product { get; }
         IProductImageRepository ProductImage { get; }
         IProductsXImageRepository ProductsXImage { get; }
+        //IUserStore UserStore { get;  }
         int Complete();
     }
 }

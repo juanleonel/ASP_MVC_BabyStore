@@ -76,8 +76,8 @@ namespace BabyStore.Controllers
 
             viewModel.Sorts = new Dictionary<string, string>
             {
-                {"Price low to high", "price_lowest" },
-                {"Price high to low", "price_highest" }
+                { "Price low to high", "price_lowest" },
+                { "Price high to low", "price_highest" }
             };
 
             return View(viewModel);

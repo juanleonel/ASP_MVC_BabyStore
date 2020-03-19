@@ -306,6 +306,11 @@ namespace BabyStore.Controllers
 
                 System.IO.File.Delete(Request.MapPath(Constants.ProductThumbnailPath + ProductImage.FileName));
 
+                // eliminar las imagenes de la relacion
+
+
+
+                // eliminar del catalogo las imagenes      
                 _unitOfWork.ProductImage.Remove(ProductImage);
                 _unitOfWork.Complete();
 
